@@ -51,6 +51,11 @@ function add_new_command {
         exit 1
     fi
 
+    if [[ "$new_package" == "zsh" ]]; then
+        echo "I'm pretty sure if you add zsh to nix-shim your computer will become a singularity."
+        exit 1
+    fi
+
     local plural=$(if [[ ${#new_commands} -gt 1 ]]; then echo -n s; fi)
     echo
     echo "Adding ${#new_commands} command${plural} to package $new_package:"
