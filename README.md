@@ -1,25 +1,19 @@
 ### Installation
 
-0. Install [nix-shell](https://nixos.org/nix/manual/#chap-installation)
-
+* Install [nix-shell](https://nixos.org/nix/manual/#chap-installation)
 ```zsh
 bash <(curl https://nixos.org/nix/install)
 ```
-
-0. Clone the repo
+* Clone the repo
 ```zsh
 git clone https://github.com/jondistad/nix-shim ~/.nix-shim
 ```
-
-0. Add the following your zshrc
-
+* Add the following your zshrc
 ```zsh
 export NIX_SHIM_ROOT="$HOME/.nix-shim"
 export PATH="$NIX_SHIM_ROOT/bin:$PATH"
 ```
-
-0. Start adding shims!
-
+* Start adding shims!
 ```zsh
 nix-shim --help # print usage
 ```
