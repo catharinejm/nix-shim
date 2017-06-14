@@ -2,7 +2,12 @@
 
 autoload -U regexp-replace
 
-source cmds.sh
+if [[ -f cmds.sh ]]; then
+    source cmds.sh
+else
+    typeset -A cmds
+    typeset -A packages
+fi
 
 source add.sh
 source rm.sh
