@@ -74,11 +74,11 @@ function rewrite_cmds_sh {
     echo "# GENERATED FILE. DO NOT EDIT"                    >> "$cmds_sh"
     echo                                                    >> "$cmds_sh"
 
-    typeset -p cmds  >> "$cmds_sh"
+    typeset -p cmds                                         >> "$cmds_sh"
 
-    echo >> "$cmds_sh"
+    echo                                                    >> "$cmds_sh"
 
-    typeset -p packages >> "$cmds_sh"
+    typeset -p packages                                     >> "$cmds_sh"
 }
 
 function run_cmd {
