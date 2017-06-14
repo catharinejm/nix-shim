@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+: ${NIX_SHIM_DIR:="$HOME/.nix-shim"}
+if [[ ! -d "$NIX_SHIM_DIR" ]]; then
+    echo "$NIX_SHIM_DIR does not exist or is not a directory."
+    echo "Are you sure that's where nix-shim is installed?"
+    exit 1
+fi
+
+autoload -U regexp-replace
+
+source util.sh
+
+invoked="$(basename "$0")"
+
+case "$invoked" in
+    nix-shim)
+        configure "$@"
+        ;;
+    *)
+        run_cmd "$invoked" "$@"
+        ;;
+esac
