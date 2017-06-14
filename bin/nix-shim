@@ -11,8 +11,6 @@ fi
 NIX_SHIM_SCRIPT_DIR="$NIX_SHIM_ROOT/scripts"
 NIX_SHIM_BIN_DIR="$NIX_SHIM_ROOT/bin"
 
-autoload -U regexp-replace
-
 source "$NIX_SHIM_ROOT/scripts/util.sh"
 
 invoked="$(basename "$0")"
