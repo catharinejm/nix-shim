@@ -24,6 +24,9 @@ function rm_shim {
             fi
             rm_package "$1"
             ;;
+        --help)
+            print_rm_usage_and_die
+            ;;
         *)
             if [[ $# -ne 1 ]]; then
                 print_rm_usage_and_die
@@ -35,11 +38,16 @@ function rm_shim {
 
 function delete_symlink {
     local cmd="$1"
-    rm -f "$NIX_SHIM_DIR/shims/$cmd"
+    rm -f "$NIX_SHIM_BIN_DIR/$cmd"
 }
 
 function rm_cmd {
     local cmd=$1
+
+    if [[ "$cmd" == "nix-shim" ]]; then
+        echo Hey\! You can\'t delete nix-shim\!
+        exit 1
+    fi
 
     if ! cmd_exists $cmd; then
         echo "No such command: $cmd"
@@ -47,6 +55,12 @@ function rm_cmd {
     fi
 
     local package=${cmds[$cmd]}
+
+    echo 
+    echo "Removing 1 command from package $package..."
+    echo 
+    echo "  $cmd"
+    echo
 
     unset "cmds[$cmd]"
 
@@ -72,12 +86,19 @@ function rm_package {
         exit 1
     fi
 
+    echo
+    echo "Removing commands in package $package..."
+    echo
+
     local cmd_list=($(echo ${packages[$package]}))
     for c in $cmd_list; do
+        echo "  $c"
         unset "cmds[$c]"
-        rm -f "$NIX_SHIM_DIR/shims/$c"
+        delete_symlink "$c"
     done
     unset "packages[$package]"
+
+    echo
 
     rewrite_cmds_sh
 }

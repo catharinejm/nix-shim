@@ -2,16 +2,18 @@
 
 set -euo pipefail
 
-: ${NIX_SHIM_DIR:="$HOME/.nix-shim"}
-if [[ ! -d "$NIX_SHIM_DIR" ]]; then
-    echo "$NIX_SHIM_DIR does not exist or is not a directory."
+: ${NIX_SHIM_ROOT:="$HOME/.nix-shim"}
+if [[ ! -d "$NIX_SHIM_ROOT" ]]; then
+    echo "$NIX_SHIM_ROOT does not exist or is not a directory."
     echo "Are you sure that's where nix-shim is installed?"
     exit 1
 fi
+NIX_SHIM_SCRIPT_DIR="$NIX_SHIM_ROOT/scripts"
+NIX_SHIM_BIN_DIR="$NIX_SHIM_ROOT/bin"
 
 autoload -U regexp-replace
 
-source util.sh
+source "$NIX_SHIM_ROOT/scripts/util.sh"
 
 invoked="$(basename "$0")"
 

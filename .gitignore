@@ -1,1 +1,3 @@
-/cmds.sh
+/scripts/cmds.sh
+/bin/*
+!/bin/nix-shim

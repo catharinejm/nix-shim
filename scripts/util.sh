@@ -2,16 +2,21 @@
 
 autoload -U regexp-replace
 
-if [[ -f cmds.sh ]]; then
-    source cmds.sh
+function script_path {
+    local filename="$1"
+    echo "$NIX_SHIM_SCRIPT_DIR/$filename"
+}
+
+if [[ -f "$(script_path cmds.sh)" ]]; then
+    source "$(script_path cmds.sh)"
 else
     typeset -A cmds
     typeset -A packages
 fi
 
-source add.sh
-source rm.sh
-source list.sh
+source "$(script_path add.sh)"
+source "$(script_path rm.sh)"
+source "$(script_path list.sh)"
 
 function print_top_usage_and_die {
     echo
@@ -62,20 +67,22 @@ function package_exists {
 }
 
 function rewrite_cmds_sh {
-    echo -n                                                 > cmds.sh
-    echo "# -*- mode: sh; eval: (sh-set-shell \"zsh\") -*-" >> cmds.sh
-    echo "# GENERATED FILE. DO NOT EDIT"                    >> cmds.sh
-    echo                                                    >> cmds.sh
+    local cmds_sh="$(script_path cmds.sh)"
+
+    echo -n                                                 > "$cmds_sh"
+    echo "# -*- mode: sh; eval: (sh-set-shell \"zsh\") -*-" >> "$cmds_sh"
+    echo "# GENERATED FILE. DO NOT EDIT"                    >> "$cmds_sh"
+    echo                                                    >> "$cmds_sh"
 
     local line
     typeset -p cmds | while read -r line; do
-        echo "$line" >> cmds.sh
+        echo "$line" >> "$cmds_sh"
     done
 
-    echo >> cmds.sh
+    echo >> "$cmds_sh"
 
     typeset -p packages | while read -r line; do
-        echo "$line" >> cmds.sh
+        echo "$line" >> "$cmds_sh"
     done
 }
 
@@ -91,7 +98,7 @@ function run_cmd {
     local args=""
     for x in "$@"; do
         local requoted="$x"
-        regexp-replace requoted \' "'\\''"
+        regexp-replace requoted \' "'\\''" || true
         args+="'$requoted' "
     done
 

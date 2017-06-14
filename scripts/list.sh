@@ -16,14 +16,20 @@ function list_shims {
         print_list_usage_and_die
     fi
 
-    echo
-    echo "Available commands:"
-    echo
-    for p in ${(k)packages}; do
-        echo "package $p:"
-        for c in $(echo ${packages[$p]}); do
-            echo "  $c"
-        done
+    if [[ ${#packages} -gt 0 ]]; then
         echo
-    done
+        echo "Available commands:"
+        echo
+        for p in ${(k)packages}; do
+            echo "package $p:"
+            for c in $(echo ${packages[$p]}); do
+                echo "  $c"
+            done
+            echo
+        done
+    else
+        echo
+        echo "No commands installed"
+        echo
+    fi
 }
