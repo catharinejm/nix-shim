@@ -63,6 +63,7 @@ function rm_cmd {
     echo
 
     unset "cmds[$cmd]"
+    delete_symlink "$cmd"
 
     set +u
     local cmd_list=($(echo ${packages[$package]}))
